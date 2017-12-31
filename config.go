@@ -27,6 +27,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/session"
 	"github.com/astaxie/beego/utils"
+	"github.com/astaxie/beego/gowaa"
 )
 
 // Config is the main struct for BConfig
@@ -142,6 +143,16 @@ func init() {
 		filename = os.Getenv("BEEGO_MODE") + ".app.conf"
 	}
 	appConfigPath = filepath.Join(workPath, "conf", filename)
+
+	//------------------------------------ peter.wang --------------------------
+	appConfigDir := filepath.Join(AppPath, gowaa.GetArgsCDir())
+	if gowaa.GetArgsCMode() != "" {
+		appConfigPath = filepath.Join(appConfigDir, "conf", fmt.Sprintf("app_%v.conf", gowaa.GetArgsCMode()))
+	}
+	fmt.Println("appConfigDir:", appConfigDir)
+	fmt.Println("appConfigPath:", appConfigPath)
+	//------------------------------------ peter.wang --------------------------
+
 	if !utils.FileExists(appConfigPath) {
 		appConfigPath = filepath.Join(AppPath, "conf", filename)
 		if !utils.FileExists(appConfigPath) {
